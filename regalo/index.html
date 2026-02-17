@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una sorpresa para ti</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            /* Paleta de colores de lujo */
+            --deep-red: #8a1c29;
+            --rose-gold: #dfa897;
+            --soft-pink: #f2dcdc;
+            --cream: #fffaf0;
+            --gold-accent: #d4af37;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Degradado profundo y romántico */
+            background: radial-gradient(circle at center, #4a0e16 0%, #1a0508 100%);
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- FONDO DE ROSAS GIGANTES --- */
+        .background-roses {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .big-rose {
+            position: absolute;
+            opacity: 0.15; /* Sutiles para no distraer */
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            animation: floatBigRose infinite linear;
+        }
+
+        /* Animación lenta y elegante para las rosas de fondo */
+        @keyframes floatBigRose {
+            from { transform: translateY(0) rotate(0deg) scale(1); }
+            to { transform: translateY(-100vh) rotate(360deg) scale(1.2); }
+        }
+
+        /* --- EFECTO DE PARTÍCULAS DORADAS --- */
+        .particle {
+            position: absolute;
+            width: 5px; height: 5px;
+            background: var(--gold-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold-accent), 0 0 20px var(--gold-accent);
+            pointer-events: none;
+            z-index: 25; /* Por encima de todo */
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            perspective: 1500px;
+        }
+
+        /* --- EL SOBRE --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 360px;
+            height: 240px;
+            cursor: pointer;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%; height: 100%;
+            background: var(--deep-red);
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            z-index: 5;
+            overflow: hidden; /* Importante para el frente */
+        }
+
+        .lid {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 50%;
+            background: var(--deep-red);
+            border-radius: 15px 15px 0 0;
+            transform-origin: top;
+            transition: transform 0.8s ease-in-out, z-index 0s linear 0.4s; /* Truco para el z-index */
+            z-index: 8;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+        
+        /* Triángulo visual de la tapa */
+        .lid::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 180px solid transparent;
+            border-right: 180px solid transparent;
+            border-top: 120px solid var(--deep-red);
+            filter: brightness(1.1);
+        }
+
+        .envelope-front {
+            position: absolute;
+            bottom: 0; width: 100%; height: 70%;
+            background: linear-gradient(to top, var(--deep-red), #a32435);
+            z-index: 7;
+            border-radius: 0 0 15px 15px;
+            /* Forma de V para el frente */
+            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        /* Corazón latente */
+        .heart-seal {
+            position: absolute;
+            top: 55%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: var(--gold-accent);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: 0.5s;
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            15% { transform: translate(-50%, -50%) scale(1.15); }
+            30% { transform: translate(-50%, -50%) scale(1); }
+            45% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* --- LA CARTA --- */
+        .letter {
+            position: absolute;
+            top: 10px; left: 20px;
+            width: calc(100% - 40px);
+            height: 220px;
+            background: var(--cream);
+            /* Textura de papel sutil */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+            border-radius: 8px;
+            padding: 35px 30px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 2; /* Empieza dentro */
+            opacity: 0;
+            border: 2px solid var(--gold-accent);
+            overflow-y: auto; /* Scroll elegante si es necesario */
+            /* Barra de scroll personalizada */
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-accent) var(--cream);
+        }
+
+        /* --- ESTADOS DE APERTURA --- */
+        .open .lid {
+            transform: rotateX(180deg);
+            z-index: 1; /* Se va al fondo */
+            transition: transform 0.8s ease-in-out, z-index 0s linear 0.4s;
+        }
+
+        .open .envelope-wrapper {
+            transform: translateY(100px); /* El sobre baja */
+        }
+
+        .open .heart-seal {
+            opacity: 0; transform: translate(-50%, -50%) scale(0);
+        }
+
+        .open .letter {
+            opacity: 1;
+            height: 450px; /* La carta crece */
+            transform: translateY(-300px); /* La carta sube y sale */
+            z-index: 20; /* Primer plano absoluto */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Tipografía de la carta */
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--deep-red);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .letter p {
+            color: #2c1e1e;
+            line-height: 1.9;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .hint-text {
+            color: var(--rose-gold);
+            margin-top: 30px;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulseText 2s infinite;
+        }
+        @keyframes pulseText { 50% { opacity: 0.5; } }
+
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/03/23/audio_0700e08170.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="background-roses" id="bgRoses">
+        </div>
+
+    <div class="container" id="mainContainer">
+        <div class="envelope-wrapper" onclick="abrirSobre(event)">
+            <div class="lid"></div>
+            <div class="heart-seal">❤</div>
+            <div class="envelope">
+                <div class="envelope-front"></div>
+            </div>
+            <div class="letter">
+                <h1>Para Marcelita jeje</h1>
+                <p>
+                    <b>Qlq miamor</b><br><br>
+                    No soy la persona mas romantica la q puedas conocer, pero mis palabras son sinceras cuando t digo q tqm, me siento raro al escribir esto y bueee.<br><br>
+                    Espero podamos pasar un 14 juntos, se q el proximo 14 la vamos a pasar lindo e iremos a comer en un resturante super bomnit0 q tu digas "EL DIABLAZO"xd.<br><br>
+                    Tqm aquí a Tokyo-Japon ida y vueltaxd, gracias y perdón por ser "romantico" pero aja.<br><br>
+                    <b>Gracias por existir y por elegirme.</b><br><br>
+                    Con todo mi amor, hoy y siempre.<br>
+                </p>
+            </div>
+        </div>
+        <div class="hint-text" id="hint">Toca el corazón para empezar la magia</div>
+    </div>
+
+    <script>
+        let abierto = false;
+        const container = document.getElementById('mainContainer');
+        const hint = document.getElementById('hint');
+        const music = document.getElementById('bgMusic');
+
+        function abrirSobre(event) {
+            if (!abierto) {
+                // 1. Abrir el sobre
+                container.classList.add('open');
+                abierto = true;
+                hint.style.opacity = '0';
+
+                // 2. Iniciar música (requiere el clic)
+                music.volume = 0.5; // Volumen suave
+                music.play().catch(e => console.log("El navegador bloqueó el autoplay hasta la interacción"));
+
+                // 3. Lanzar fuegos artificiales dorados
+                crearExplosionDorada(event.clientX, event.clientY);
+            }
+        }
+
+        // Función para crear las rosas gigantes del fondo
+        function crearRosasFondo() {
+            const bgContainer = document.getElementById('bgRoses');
+            // SVG de una rosa simple
+            const roseSVG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%238a1c29' d='M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm0 464C114.6 512 0 397.4 0 256S114.6 0 256 0s256 114.6 256 256-114.6 256-256 256zm120.3-237.9c-10.9-10.9-28.6-10.9-39.5 0l-81.9 81.9-36.2-36.2c-10.9-10.9-28.6-10.9-39.5 0s-10.9 28.6 0 39.5l56 56c10.9 10.9 28.6 10.9 39.5 0l101.7-101.7c10.8-10.9 10.8-28.6-.1-39.5z'/%3E%3Cpath fill='%23e7a08d' d='M376.3 274.1c-10.9-10.9-28.6-10.9-39.5 0l-81.9 81.9-36.2-36.2c-10.9-10.9-28.6-10.9-39.5 0s-10.9 28.6 0 39.5l56 56c10.9 10.9 28.6 10.9 39.5 0l101.7-101.7c10.8-10.9 10.8-28.6-.1-39.5zM256 112c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144-64.5-144-144-144zm0 256c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z'/%3E%3C/svg%3E`;
+            
+            for (let i = 0; i < 15; i++) {
+                let rose = document.createElement('img');
+                rose.src = roseSVG;
+                rose.className = 'big-rose';
+                // Tamaños variados
+                let size = Math.random() * 300 + 100; 
+                rose.style.width = size + 'px';
+                rose.style.left = Math.random() * 100 - 20 + 'vw';
+                rose.style.top = Math.random() * 100 + 'vh';
+                // Velocidades variadas
+                rose.style.animationDuration = Math.random() * 60 + 40 + 's'; 
+                rose.style.animationDelay = -Math.random() * 60 + 's';
+                bgContainer.appendChild(rose);
+            }
+        }
+
+        // Función para la explosión de partículas doradas
+        function crearExplosionDorada(x, y) {
+            for (let i = 0; i < 60; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                document.body.appendChild(particle);
+
+                const destinationX = (Math.random() - 0.5) * 400;
+                const destinationY = (Math.random() - 0.5) * 400;
+                const rotation = Math.random() * 520;
+                const delay = Math.random() * 200;
+                
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+
+                particle.animate([
+                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(${destinationX}px, ${destinationY}px) rotate(${rotation}deg)`, opacity: 0 }
+                ], {
+                    duration: 1500 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)',
+                    delay: delay
+                }).onfinish = () => particle.remove();
+            }
+        }
+
+        // Inicializar el fondo
+        crearRosasFondo();
+    </script>
+</body>
+</html>
